@@ -589,15 +589,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
         function showTab(event, tabName) {
-            // Get all elements
             const tabs = document.querySelectorAll('.tab');
             const contents = document.querySelectorAll('.tab-content');
             
-            // Remove active class from all
             tabs.forEach(tab => tab.classList.remove('active'));
             contents.forEach(content => content.classList.remove('active'));
             
-            // Add active class to clicked tab and corresponding content
             event.currentTarget.classList.add('active');
             document.getElementById(tabName).classList.add('active');
         }
@@ -607,19 +604,15 @@
             const statusMsg = document.getElementById('statusMessage');
             
             try {
-                // Disable button
                 btn.disabled = true;
                 btn.textContent = '⏳ Generating Excel file...';
                 
-                // Check if XLSX library is loaded
                 if (typeof XLSX === 'undefined') {
                     throw new Error('Excel library not loaded. Please refresh the page.');
                 }
                 
-                // Create workbook
                 const wb = XLSX.utils.book_new();
                 
-                // Summary Sheet
                 const summaryData = [
                     ['ADU BUILD COST SENSITIVITY ANALYSIS'],
                     ['400-500 sq ft Accessory Dwelling Unit - October 2025 Georgia Prices'],
@@ -643,7 +636,6 @@
                     ['TOTAL', 58120, 52308, 63932, 1.000]
                 ];
                 
-                // Sensitivity Analysis Sheet
                 const sensitivityData = [
                     ['SENSITIVITY ANALYSIS - Impact of ±10% Variation'],
                     [''],
@@ -663,7 +655,6 @@
                     ['TOTAL', 58120, 52308, -5812, 63932, 5812, '']
                 ];
                 
-                // Cost Comparison Sheet
                 const comparisonData = [
                     ['BUILD OPTION COMPARISON'],
                     [''],
@@ -676,24 +667,19 @@
                     ['Modular Target', '', '', 99000, 220, '4-6 weeks']
                 ];
                 
-                // Create worksheets
                 const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
                 const ws2 = XLSX.utils.aoa_to_sheet(sensitivityData);
                 const ws3 = XLSX.utils.aoa_to_sheet(comparisonData);
                 
-                // Add sheets to workbook
                 XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
                 XLSX.utils.book_append_sheet(wb, ws2, 'Sensitivity Analysis');
                 XLSX.utils.book_append_sheet(wb, ws3, 'Cost Comparison');
                 
-                // Generate and download
                 XLSX.writeFile(wb, 'ADU_Cost_Sensitivity_Analysis.xlsx');
                 
-                // Success message
                 statusMsg.className = 'status-message success';
                 statusMsg.textContent = '✅ Excel file downloaded successfully!';
                 
-                // Reset button
                 setTimeout(() => {
                     btn.disabled = false;
                     btn.textContent = '📥 Download Excel Workbook (.xlsx)';
@@ -701,12 +687,10 @@
                 }, 3000);
                 
             } catch (error) {
-                // Error handling
                 console.error('Download error:', error);
                 statusMsg.className = 'status-message error';
                 statusMsg.textContent = '❌ Error: ' + error.message + ' - Please refresh and try again.';
                 
-                // Reset button
                 btn.disabled = false;
                 btn.textContent = '📥 Download Excel Workbook (.xlsx)';
             }
